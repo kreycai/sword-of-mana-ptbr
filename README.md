@@ -91,6 +91,18 @@ ou reescrever os ponteiros e expandir a ROM. Aqui foi a segunda — o texto não
 Contribuições e reportes são bem-vindos. Erro de tradução ou texto cortado: abra uma issue
 com **print** e onde aconteceu.
 
+## Apoiar
+
+A tradução é gratuita e continua sendo. Se ela te serviu e você quiser contribuir com algo,
+aceito Pix:
+
+```
+031ce91d-e33b-48b6-84c5-1930edd381c5
+```
+
+Sem obrigação nenhuma. Sugerir nome pra item ou reportar texto cortado ajuda tanto quanto —
+é justamente onde ajuda de fora rende mais.
+
 ## Licença e escopo
 
 As **ferramentas** em `tools/` são livres — use como quiser.
