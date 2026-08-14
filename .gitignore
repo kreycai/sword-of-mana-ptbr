@@ -1,0 +1,27 @@
+# NUNCA versionar o jogo. Patch nao e pirataria, ROM/ISO e.
+*.gba
+*.iso
+*.z64
+*.n64
+*.v64
+*.bin
+*.dec
+*.dar
+*.cpk
+*.pbp
+EBOOT.BIN
+EBOOT.PBP
+BOOT.BIN
+
+# extracoes e trabalho intermediario
+texto_extraido/
+parts_*/
+sessoes/
+__pycache__/
+*.pyc
+
+# patches vao pro RELEASES do GitHub, nunca pro repositorio
+*.bps
+*.ips
+*.xdelta
+patches/

@@ -1,0 +1,103 @@
+==============================================================================
+  COMO APLICAR AS TRADUCOES PT-BR
+==============================================================================
+
+Os arquivos .bps sao PATCHES. Eles nao contem o jogo -- so a diferenca entre a
+ROM/ISO original e a traduzida. Voce precisa ter o jogo original.
+
+BPS carrega CRC32 da origem, do destino e do proprio patch. Se voce usar a ROM
+errada, o programa AVISA e nao gera nada. Isso e proposital: e o problema do
+formato IPS antigo, que aplica em cima de qualquer coisa e produz lixo calado.
+
+
+==============================================================================
+  O QUE VOCE PRECISA
+==============================================================================
+
+  Floating IPS (flips)  -> https://www.romhacking.net/utilities/1040/
+  ou beat               -> https://www.romhacking.net/utilities/893/
+  ou o bps.py que acompanha (precisa de Python 3)
+
+Os tres aplicam BPS. O flips e o mais usado e tem interface grafica.
+
+
+==============================================================================
+  SWORD OF MANA (Game Boy Advance)
+==============================================================================
+
+  Patch    : SwordOfMana-ptBR.bps  (16,777,361 bytes)
+  Aplicar em: Sword of Mana (USA, Australia)
+  Tamanho  : 16,777,216 bytes
+  CRC32    : FACBDF03
+  SHA-1    : df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
+  MD5      : fc2922e048ef6461d7cda4bd79ef689f
+
+  ATENCAO: a ROM resultante tem 32 MB, o dobro da original. A ROM foi expandida
+  pra caber texto em portugues, que ocupa mais espaco que o ingles. Isso e
+  normal, mas alguns flashcarts e emuladores muito antigos implicam com ROM
+  expandida. mGBA, VBA-M e o Everdrive GBA rodam sem problema.
+
+  ESTADO: dialogo 100% traduzido (4.335 falas, 320.602 caracteres).
+          Menus, itens e equipamentos AINDA EM INGLES (2.909 strings).
+
+
+==============================================================================
+  GUNGNIR (PSP)
+==============================================================================
+
+  Patch    : Gungnir-ptBR.bps  (33,041,415 bytes)
+  Aplicar em: Gungnir (USA)
+  Tamanho  : 262,766,592 bytes
+  CRC32    : 183F3EDC
+  SHA-1    : 7cded8a4cb5ef7a6e018bb73d10c0ad728747adb
+  MD5      : c687b198bffcd459bd8d914fcb7fcfba
+
+  ESTADO: 100% do texto traduzido (17.550 strings -- 13.998 na ISO + 3.552 no
+          EBOOT). Acentuacao completa. Confirmado rodando em PSP real.
+          Textos que estao DENTRO DE IMAGEM continuam em ingles: telas de
+          tutorial, nomes de skill na batalha, banners de lugar e titulos de
+          capitulo. Isso e edicao grafica, uma fase separada.
+
+
+==============================================================================
+  PASSO A PASSO -- Floating IPS (mais facil)
+==============================================================================
+
+  1. Abra o flips.exe
+  2. "Apply Patch"
+  3. Escolha o arquivo .bps
+  4. Escolha a sua ROM/ISO original
+  5. Escolha onde salvar o resultado
+
+  Se aparecer erro de checksum, sua ROM nao e a mesma que eu usei. Confira o
+  CRC32 acima. Nao force: o resultado nao vai funcionar.
+
+
+==============================================================================
+  PASSO A PASSO -- por linha de comando (bps.py)
+==============================================================================
+
+  python3 bps.py aplicar "Sword of Mana (USA, Australia).gba" SwordOfMana-ptBR.bps "Sword of Mana (pt-BR).gba"
+  python3 bps.py aplicar "Gungnir (USA).iso" Gungnir-ptBR.bps "Gungnir (pt-BR).iso"
+
+  Ele confere o CRC da origem antes e o do resultado depois. Se qualquer um nao
+  bater, ele para e diz qual.
+
+
+==============================================================================
+  PERGUNTAS QUE SEMPRE APARECEM
+==============================================================================
+
+  "Posso pedir a ROM/ISO pra voce?"
+  Nao. Distribuir o jogo e pirataria; distribuir o patch nao e. Por isso o
+  formato e patch.
+
+  "Da pra usar em PPSSPP / emulador?"
+  Gungnir: sim. Tambem roda em PSP real, que foi onde testei.
+  Sword of Mana: sim, mGBA e VBA-M.
+
+  "Meu save antigo funciona?"
+  Nao garanto. Comece um jogo novo pra evitar surpresa.
+
+  "Achei um erro de traducao / texto cortado"
+  Reporte com print e onde aconteceu. E o tipo de coisa que so aparece jogando.
