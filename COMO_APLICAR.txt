@@ -1,103 +1,136 @@
 ==============================================================================
-  COMO APLICAR AS TRADUCOES PT-BR
+  SWORD OF MANA (GBA) -- TRADUCAO PT-BR -- COMO APLICAR
 ==============================================================================
 
-Os arquivos .bps sao PATCHES. Eles nao contem o jogo -- so a diferenca entre a
-ROM/ISO original e a traduzida. Voce precisa ter o jogo original.
+  LEIA ANTES DE BAIXAR: o DIALOGO esta 100% traduzido, mas MENUS, ITENS e
+  EQUIPAMENTOS continuam em INGLES. Voce joga a historia inteira em portugues,
+  mas vai ver "Rusty Sword" no inventario. Isso esta na secao 5.
 
-BPS carrega CRC32 da origem, do destino e do proprio patch. Se voce usar a ROM
-errada, o programa AVISA e nao gera nada. Isso e proposital: e o problema do
-formato IPS antigo, que aplica em cima de qualquer coisa e produz lixo calado.
+O arquivo .bps e um PATCH. Ele nao contem o jogo, so a diferenca entre a ROM
+original e a traduzida. Voce precisa ter a sua propria copia do jogo.
+
+BPS carrega o CRC32 da origem, do destino e do proprio patch. Se voce usar a
+ROM errada, o programa AVISA e nao gera nada. Isso e proposital: e justamente
+o problema do formato IPS antigo, que aplica em cima de qualquer coisa e
+produz um arquivo quebrado sem dizer nada.
 
 
 ==============================================================================
-  O QUE VOCE PRECISA
+  1. O QUE VOCE PRECISA
 ==============================================================================
 
-  Floating IPS (flips)  -> https://www.romhacking.net/utilities/1040/
-  ou beat               -> https://www.romhacking.net/utilities/893/
-  ou o bps.py que acompanha (precisa de Python 3)
+  Floating IPS (flips)  ->  https://www.romhacking.net/utilities/1040/
+  ou beat               ->  https://www.romhacking.net/utilities/893/
+  ou o bps.py que acompanha o repositorio (precisa de Python 3)
 
 Os tres aplicam BPS. O flips e o mais usado e tem interface grafica.
 
 
 ==============================================================================
-  SWORD OF MANA (Game Boy Advance)
+  2. A ROM CERTA
 ==============================================================================
 
-  Patch    : SwordOfMana-ptBR.bps  (16,777,361 bytes)
-  Aplicar em: Sword of Mana (USA, Australia)
-  Tamanho  : 16,777,216 bytes
-  CRC32    : FACBDF03
-  SHA-1    : df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
-  MD5      : fc2922e048ef6461d7cda4bd79ef689f
+  Aplicar em : Sword of Mana (USA, Australia)
+  Tamanho    : 16.777.216 bytes
+  CRC32      : FACBDF03
+  SHA-1      : df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
+  MD5        : fc2922e048ef6461d7cda4bd79ef689f
 
-  ATENCAO: a ROM resultante tem 32 MB, o dobro da original. A ROM foi expandida
-  pra caber texto em portugues, que ocupa mais espaco que o ingles. Isso e
-  normal, mas alguns flashcarts e emuladores muito antigos implicam com ROM
-  expandida. mGBA, VBA-M e o Everdrive GBA rodam sem problema.
+  Patch      : SwordOfMana-ptBR.bps  (16.777.361 bytes)
 
-  ESTADO: dialogo 100% traduzido (4.335 falas, 320.602 caracteres).
-          Menus, itens e equipamentos AINDA EM INGLES (2.909 strings).
+Se o seu arquivo tem outro tamanho ou outro CRC32, e outra versao e o patch
+nao vai aplicar. Nao force.
 
 
 ==============================================================================
-  GUNGNIR (PSP)
-==============================================================================
-
-  Patch    : Gungnir-ptBR.bps  (33,041,415 bytes)
-  Aplicar em: Gungnir (USA)
-  Tamanho  : 262,766,592 bytes
-  CRC32    : 183F3EDC
-  SHA-1    : 7cded8a4cb5ef7a6e018bb73d10c0ad728747adb
-  MD5      : c687b198bffcd459bd8d914fcb7fcfba
-
-  ESTADO: 100% do texto traduzido (17.550 strings -- 13.998 na ISO + 3.552 no
-          EBOOT). Acentuacao completa. Confirmado rodando em PSP real.
-          Textos que estao DENTRO DE IMAGEM continuam em ingles: telas de
-          tutorial, nomes de skill na batalha, banners de lugar e titulos de
-          capitulo. Isso e edicao grafica, uma fase separada.
-
-
-==============================================================================
-  PASSO A PASSO -- Floating IPS (mais facil)
+  3. PASSO A PASSO -- Floating IPS (mais facil)
 ==============================================================================
 
   1. Abra o flips.exe
-  2. "Apply Patch"
-  3. Escolha o arquivo .bps
-  4. Escolha a sua ROM/ISO original
+  2. Clique em "Apply Patch"
+  3. Escolha o arquivo SwordOfMana-ptBR.bps
+  4. Escolha a sua ROM original de Sword of Mana (USA, Australia)
   5. Escolha onde salvar o resultado
 
-  Se aparecer erro de checksum, sua ROM nao e a mesma que eu usei. Confira o
-  CRC32 acima. Nao force: o resultado nao vai funcionar.
+Se aparecer erro de checksum, a sua ROM nao e a mesma que eu usei. Confira o
+CRC32 da secao 2.
 
 
 ==============================================================================
-  PASSO A PASSO -- por linha de comando (bps.py)
+  4. PASSO A PASSO -- linha de comando
 ==============================================================================
 
   python3 bps.py aplicar "Sword of Mana (USA, Australia).gba" SwordOfMana-ptBR.bps "Sword of Mana (pt-BR).gba"
-  python3 bps.py aplicar "Gungnir (USA).iso" Gungnir-ptBR.bps "Gungnir (pt-BR).iso"
 
-  Ele confere o CRC da origem antes e o do resultado depois. Se qualquer um nao
-  bater, ele para e diz qual.
+Ele confere o CRC da origem antes e o do resultado depois. Se qualquer um dos
+dois nao bater, ele para e diz qual.
 
 
 ==============================================================================
-  PERGUNTAS QUE SEMPRE APARECEM
+  5. A ROM RESULTANTE TEM 32 MB -- ISSO E NORMAL
 ==============================================================================
 
-  "Posso pedir a ROM/ISO pra voce?"
-  Nao. Distribuir o jogo e pirataria; distribuir o patch nao e. Por isso o
-  formato e patch.
+  O dobro da original. A ROM foi EXPANDIDA de proposito.
 
-  "Da pra usar em PPSSPP / emulador?"
-  Gungnir: sim. Tambem roda em PSP real, que foi onde testei.
-  Sword of Mana: sim, mGBA e VBA-M.
+  Texto em portugues e mais longo que em ingles, e numa ROM de GBA o texto fica
+  num espaco fixo: texto maior sobrescreve o dado seguinte. Havia duas saidas,
+  cortar a traducao pra caber ou expandir a ROM e reescrever a tabela de
+  ponteiros. Foi a segunda -- o texto nao foi mutilado.
+
+  Roda em mGBA, VBA-M e no Everdrive GBA. Emuladores e flashcarts muito
+  antigos podem implicar com ROM expandida.
+
+
+==============================================================================
+  6. O QUE ESTA TRADUZIDO
+==============================================================================
+
+  DIALOGO ......... 4.335 de 4.372 falas, 320.602 caracteres.
+                    As 37 restantes sao todas {BLANK} ou vazias, conferidas
+                    uma a uma. Nao existe uma unica linha de dialogo real sem
+                    traducao. Na pratica, o dialogo esta 100%.
+
+  MENUS E ITENS ... 0 de 2.909 strings. AINDA EM INGLES.
+                    Nome de item, equipamento, magia e comandos. Exemplos do
+                    que voce vai ver em ingles: Rusty Sword, Mana Pendant,
+                    Cactus Essence, Moon Mirror, Gold Key.
+
+  Sao strings curtas, mas com limite de espaco bem mais apertado que o
+  dialogo -- o problema oposto. E a proxima fase.
+
+  O jogo nao foi zerado nessa versao. O dialogo foi revisado, mas se voce
+  encontrar texto cortado, reporte.
+
+
+==============================================================================
+  7. PERGUNTAS QUE SEMPRE APARECEM
+==============================================================================
+
+  "Posso pedir a ROM pra voce?"
+  Nao. Distribuir o jogo e pirataria; distribuir o patch nao e. E por isso que
+  o formato entregue e um patch.
+
+  "Funciona em emulador?"
+  Sim, mGBA e VBA-M. E em Everdrive GBA no console real.
 
   "Meu save antigo funciona?"
   Nao garanto. Comece um jogo novo pra evitar surpresa.
 
-  "Achei um erro de traducao / texto cortado"
-  Reporte com print e onde aconteceu. E o tipo de coisa que so aparece jogando.
+  "Achei um erro de traducao ou texto cortado"
+  Abra uma issue no repositorio com print e onde aconteceu. Esse tipo de coisa
+  so aparece jogando.
+
+  https://github.com/kreycai/sword-of-mana-ptbr
+
+
+==============================================================================
+  LICENCA E ESCOPO
+==============================================================================
+
+  As ferramentas do repositorio sao livres, use como quiser.
+
+  A traducao e trabalho derivado do jogo original, feita sem fins lucrativos e
+  distribuida como patch justamente pra nao distribuir o jogo. Nao vendo, nao
+  peca ROM, e nao use isso comercialmente.
+
+  Sword of Mana e propriedade da Square Enix.
