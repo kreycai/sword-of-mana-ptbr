@@ -26,6 +26,27 @@ precisa ter a sua própria cópia.
 | CRC32 | `FACBDF03` |
 | SHA-1 | `veja COMO_APLICAR.txt` |
 
+### Não tem certeza se a sua ROM é a certa?
+
+```
+python3 tools/verificar_rom.py "Sword of Mana (USA, Australia).gba"
+```
+
+Ele diz se é a certa e, se não for, **qual você tem** — o erro mais comum é ter a versão
+europeia (`AVSP`) ou a japonesa (`AVSJ`), que têm nome parecido e não servem. O flips só diz
+que o checksum não bate, sem explicar o motivo.
+
+Identificadores da ROM esperada, para conferir por conta própria:
+
+```
+Sword of Mana (USA, Australia)
+16.777.216 bytes
+CRC32     FACBDF03
+SHA-1     df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
+game code AVSE   (offset 0xAC do cabeçalho)
+versão    0
+```
+
 Passo a passo em **[COMO_APLICAR.txt](COMO_APLICAR.txt)**.
 
 Resumo: baixe o [Floating IPS](https://www.romhacking.net/utilities/1040/), clique em
