@@ -13,8 +13,8 @@ import zlib
 
 ESPERADO = {
     'tamanho': 16_777_216,
-    'crc32': 0xFACBDF03,
-    'sha1': 'df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a',
+    'crc32': 0x7F1EAC75,
+    'sha1': 'a7ff0b4482c7c3b19467af37c3e277321cd9f1cd',
     'code': 'AVSE',
     'versao': 0,
 }

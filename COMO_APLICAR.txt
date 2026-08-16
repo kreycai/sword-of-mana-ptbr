@@ -32,11 +32,11 @@ Os tres aplicam BPS. O flips e o mais usado e tem interface grafica.
 
   Aplicar em : Sword of Mana (USA, Australia)
   Tamanho    : 16.777.216 bytes
-  CRC32      : FACBDF03
-  SHA-1      : df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
-  MD5        : fc2922e048ef6461d7cda4bd79ef689f
+  CRC32      : 7F1EAC75
+  SHA-1      : a7ff0b4482c7c3b19467af37c3e277321cd9f1cd
+  MD5        : c7e5d28e7c430454aeff766961095561
 
-  Patch      : SwordOfMana-ptBR.bps  (16.777.361 bytes)
+  Patch      : SwordOfMana-ptBR.bps  (16.783.854 bytes)
 
 Se o seu arquivo tem outro tamanho ou outro CRC32, e outra versao e o patch
 nao vai aplicar. Nao force.

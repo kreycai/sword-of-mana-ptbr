@@ -23,7 +23,7 @@ precisa ter a sua própria cópia.
 |---|---|
 | Aplicar em | **Sword of Mana (USA, Australia)** |
 | Tamanho | 16.777.216 bytes |
-| CRC32 | `FACBDF03` |
+| CRC32 | `7F1EAC75` |
 | SHA-1 | `veja COMO_APLICAR.txt` |
 
 ### Não tem certeza se a sua ROM é a certa?
@@ -41,8 +41,8 @@ Identificadores da ROM esperada, para conferir por conta própria:
 ```
 Sword of Mana (USA, Australia)
 16.777.216 bytes
-CRC32     FACBDF03
-SHA-1     df7e45d2807eaa3f4d31f0bc5c8f5752a78fe47a
+CRC32     7F1EAC75
+SHA-1     a7ff0b4482c7c3b19467af37c3e277321cd9f1cd
 game code AVSE   (offset 0xAC do cabeçalho)
 versão    0
 ```
