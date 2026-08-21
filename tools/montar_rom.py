@@ -17,8 +17,15 @@ AQUI  = os.path.dirname(os.path.abspath(__file__))
 TRAD  = os.path.dirname(AQUI)
 SEISA = os.path.join(TRAD, 'SeiSaboten')
 ROM   = os.path.join(TRAD, 'Sword of Mana (USA, Australia) - Copia.gba')
-SAIDA = os.path.join(TRAD, 'Sword of Mana (pt-BR).gba')
+
+# Duas ROMs, dois arquivos SEPARADOS (nunca sobrescrever um com o outro):
+#   sem flag       -> completa: dialogo + menus + mensagens de sistema
+#   --so-dialogo   -> so o dialogo, menus e sistema ficam em ingles
+SO_DIALOGO = '--so-dialogo' in sys.argv
+SAIDA = os.path.join(TRAD, 'Sword of Mana (pt-BR) - so dialogo.gba' if SO_DIALOGO
+                           else 'Sword of Mana (pt-BR) - completa.gba')
 sys.path.insert(0, SEISA)
+sys.path.insert(0, AQUI)
 
 import globals, locations
 with open(ROM, 'rb') as f:
@@ -28,6 +35,8 @@ import textman
 tm = textman.TextManager()
 mf = globals.my_file
 import acentos
+import menus as menus_mod
+import sistema as sistema_mod
 
 # ---------- codificador (texto -> bytes), verificado a 100% ----------
 TOKEN_TO_BYTES = {
@@ -149,12 +158,6 @@ if ACENTOS_NA_FONTE:
 for id_, txt in TRADUCOES.items():
     encode_string(txt)
 
-# >>> DIAGNOSTICO TEMPORARIO (remover depois): carimbo de versao + teste de acentos
-_diag = "V3 teste:\naa ii oo uu\naá ií oó uú\naã oõ ç"
-# poe bloco solido nos slots 0x68 (ó) e 0x79 (ã=funciona) pra teste inequivoco
-pass  # diagnostico removido
-# <<< fim diagnostico
-
 blob = montar(TRADUCOES)
 print(f'[i] Tabela original: {len(original)} bytes | traduzida: {len(blob)} bytes '
       f'(+{len(blob)-len(original)})')
@@ -164,13 +167,85 @@ NEW_OFF = 0x01000000                       # inicio da area nova (a ROM tem exat
 mf += bytearray(0x01000000)                # estende a ROM em 16MB (fica com 32MB, max do GBA)
 mf[NEW_OFF:NEW_OFF + len(blob)] = blob      # escreve a tabela nova na area livre
 
+FIM_DIALOGO = NEW_OFF + len(blob)
+
 ptr_loc = int(locations.locations['E']['story_text_location'], 16)  # 0x3EB0
 novo_ponteiro = (NEW_OFF + 0x08000000).to_bytes(4, 'little')        # enderecos do GBA = 0x08000000 + offset
 antigo = bytes(mf[ptr_loc:ptr_loc + 4])
 mf[ptr_loc:ptr_loc + 4] = novo_ponteiro
 print(f'[i] Ponteiro-mestre em 0x{ptr_loc:X}: {antigo.hex()} -> {novo_ponteiro.hex()}')
 
+# ---------- 4) MENUS / ITENS (master table em 0x65D8) ----------
+# Aqui a estrategia e DIFERENTE da do dialogo: o cabecalho e o array de 57
+# offsets ficam no lugar (66 ponteiros de codigo apontam direto pra dentro
+# dele), e so as sub-tabelas traduzidas vao pra area nova. Ver tools/menus.py.
+# Se acabar que os MENUS usam outra fonte (que nao tem os acentuados que a
+# gente mapeou na fonte de dialogo), poe False aqui: os menus saem sem acento e
+# o dialogo continua acentuado.
+ACENTOS_MENUS = True
+
+MENUS_OFF = 0x01200000
+assert FIM_DIALOGO < MENUS_OFF, f'o dialogo invadiu a area dos menus ({FIM_DIALOGO:#x})'
+
+if SO_DIALOGO:
+    print('[i] --so-dialogo: menus e mensagens de sistema ficam em INGLES.')
+
+master = menus_mod.MasterTable(mf, tm)
+erros = master.verificar_identidade()
+if erros:
+    print('!! master table: verificacao de identidade FALHOU -- nao salvo nada.')
+    for i, e in erros:
+        print(f'   [{i}] {e}')
+    sys.exit(1)
+print(f'[OK] Master table: 55 sub-tabelas remontadas byte-identicas.')
+
+CAMINHO_MENUS = os.path.join(TRAD, 'traducao_menus.json')
+if os.path.exists(CAMINHO_MENUS) and not SO_DIALOGO:
+    with open(CAMINHO_MENUS, encoding='utf8') as f:
+        _m = json.load(f)
+    TRAD_MENUS = {}
+    for tb, ents in _m.items():
+        d = {}
+        for k, v in ents.items():
+            if v is None or v == '':
+                continue
+            v = normaliza_fonte(v)
+            d[int(k)] = v if (ACENTOS_NA_FONTE and ACENTOS_MENUS) else tira_acento(v)
+        if d:
+            TRAD_MENUS[int(tb)] = d
+    n_str = sum(len(d) for d in TRAD_MENUS.values())
+    print(f'[i] Menus: {n_str} strings em {len(TRAD_MENUS)} sub-tabelas')
+    fim = master.aplicar(TRAD_MENUS, MENUS_OFF)
+    print(f'[i] Menus escritos em 0x{MENUS_OFF:X}..0x{fim:X}')
+elif not SO_DIALOGO:
+    print('[i] traducao_menus.json nao existe — menus ficam em ingles.')
+
+# ---------- 5) MENSAGENS DE SISTEMA (3o bloco, 0xE7AD1C) ----------
+# save/load, forja, criacao de personagem, "A Button:Confirm", NPC, Amigo.
+# Nao esta na tabela de dialogo NEM na master table. Bloco com ZERO folga:
+# escrito IN-PLACE preservando o tamanho total. Ver tools/sistema.py.
+master.tm = tm
+bloco = sistema_mod.BlocoSistema(mf, master)
+if not bloco.verificar_identidade():
+    print('!! bloco de sistema: verificacao de identidade FALHOU -- nao salvo nada.')
+    sys.exit(1)
+print('[OK] Bloco de sistema: 125 segmentos remontados byte-identicos.')
+
+CAMINHO_SIS = os.path.join(TRAD, 'traducao_sistema.json')
+if os.path.exists(CAMINHO_SIS) and not SO_DIALOGO:
+    with open(CAMINHO_SIS, encoding='utf8') as f:
+        _s = json.load(f)
+    TRAD_SIS = {}
+    for k, v in _s.items():
+        if v is None:
+            continue
+        v = normaliza_fonte(v)
+        TRAD_SIS[int(k)] = v if (ACENTOS_NA_FONTE and ACENTOS_MENUS) else tira_acento(v)
+    print(f'[i] Sistema: {len(TRAD_SIS)} strings')
+    bloco.aplicar(TRAD_SIS)
+elif not SO_DIALOGO:
+    print('[i] traducao_sistema.json nao existe — mensagens de sistema em ingles.')
+
 with open(SAIDA, 'wb') as f:
     f.write(mf)
 print(f'\n[OK] ROM traduzida salva:\n  {SAIDA}\n  ({len(mf):,} bytes)')
-print('Traduzidas as falas de abertura (#1 a #6). Teste no mGBA!')

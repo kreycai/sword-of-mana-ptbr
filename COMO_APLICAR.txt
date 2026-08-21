@@ -1,10 +1,10 @@
 ==============================================================================
-  SWORD OF MANA (GBA) -- TRADUCAO PT-BR -- COMO APLICAR
+  SWORD OF MANA (GBA) -- TRADUCAO PT-BR -- COMO APLICAR          v2.0
 ==============================================================================
 
-  LEIA ANTES DE BAIXAR: o DIALOGO esta 100% traduzido, mas MENUS, ITENS e
-  EQUIPAMENTOS continuam em INGLES. Voce joga a historia inteira em portugues,
-  mas vai ver "Rusty Sword" no inventario. Isso esta na secao 5.
+  NOVIDADE DA v2.0: os MENUS agora estao em PORTUGUES. A versao de agosto
+  traduzia so o dialogo. Se voce prefere a interface em ingles, o patch da
+  versao antiga tambem esta aqui.
 
 O arquivo .bps e um PATCH. Ele nao contem o jogo, so a diferenca entre a ROM
 original e a traduzida. Voce precisa ter a sua propria copia do jogo.
@@ -16,7 +16,23 @@ produz um arquivo quebrado sem dizer nada.
 
 
 ==============================================================================
-  1. O QUE VOCE PRECISA
+  1. QUAL DOS DOIS PATCHES
+==============================================================================
+
+  SwordOfMana-ptBR-completa.bps    <-- o recomendado
+      Dialogo + menus + mensagens de sistema.
+      Resultado: CRC32 E2C5B55F
+
+  SwordOfMana-ptBR-so-dialogo.bps
+      So o dialogo. Menus, itens e equipamentos em ingles.
+      E o mesmo resultado do lancamento de agosto de 2026.
+      Resultado: CRC32 14EC7BB2
+
+Os dois se aplicam na MESMA ROM de origem (secao 3).
+
+
+==============================================================================
+  2. O QUE VOCE PRECISA
 ==============================================================================
 
   Floating IPS (flips)  ->  https://www.romhacking.net/utilities/1040/
@@ -24,50 +40,51 @@ produz um arquivo quebrado sem dizer nada.
   ou o bps.py que acompanha o repositorio (precisa de Python 3)
 
 Os tres aplicam BPS. O flips e o mais usado e tem interface grafica.
+No Android, ha patchers BPS online que resolvem pelo navegador.
 
 
 ==============================================================================
-  2. A ROM CERTA
+  3. A ROM CERTA
 ==============================================================================
 
-  Aplicar em : Sword of Mana (USA, Australia)
+  Aplicar em : Sword of Mana (USA, Australia)   [dump No-Intro]
   Tamanho    : 16.777.216 bytes
   CRC32      : 7F1EAC75
   SHA-1      : a7ff0b4482c7c3b19467af37c3e277321cd9f1cd
   MD5        : c7e5d28e7c430454aeff766961095561
 
-  Patch      : SwordOfMana-ptBR.bps  (16.783.854 bytes)
-
 Se o seu arquivo tem outro tamanho ou outro CRC32, e outra versao e o patch
 nao vai aplicar. Nao force.
 
+  Na duvida, rode:  python3 verificar_rom.py "sua rom.gba"
+
 
 ==============================================================================
-  3. PASSO A PASSO -- Floating IPS (mais facil)
+  4. PASSO A PASSO -- Floating IPS (mais facil)
 ==============================================================================
 
   1. Abra o flips.exe
   2. Clique em "Apply Patch"
-  3. Escolha o arquivo SwordOfMana-ptBR.bps
+  3. Escolha o .bps (veja a secao 1)
   4. Escolha a sua ROM original de Sword of Mana (USA, Australia)
   5. Escolha onde salvar o resultado
 
 Se aparecer erro de checksum, a sua ROM nao e a mesma que eu usei. Confira o
-CRC32 da secao 2.
+CRC32 da secao 3.
 
 
 ==============================================================================
-  4. PASSO A PASSO -- linha de comando
+  5. PASSO A PASSO -- linha de comando
 ==============================================================================
 
-  python3 bps.py aplicar "Sword of Mana (USA, Australia).gba" SwordOfMana-ptBR.bps "Sword of Mana (pt-BR).gba"
+  python3 bps.py aplicar "Sword of Mana (USA, Australia).gba" SwordOfMana-ptBR-completa.bps "Sword of Mana (pt-BR).gba"
 
 Ele confere o CRC da origem antes e o do resultado depois. Se qualquer um dos
 dois nao bater, ele para e diz qual.
 
 
 ==============================================================================
-  5. A ROM RESULTANTE TEM 32 MB -- ISSO E NORMAL
+  6. A ROM RESULTANTE TEM 32 MB -- ISSO E NORMAL
 ==============================================================================
 
   O dobro da original. A ROM foi EXPANDIDA de proposito.
@@ -82,28 +99,41 @@ dois nao bater, ele para e diz qual.
 
 
 ==============================================================================
-  6. O QUE ESTA TRADUZIDO
+  7. O QUE ESTA TRADUZIDO
 ==============================================================================
 
-  DIALOGO ......... 4.335 de 4.372 falas, 320.602 caracteres.
-                    As 37 restantes sao todas {BLANK} ou vazias, conferidas
-                    uma a uma. Nao existe uma unica linha de dialogo real sem
-                    traducao. Na pratica, o dialogo esta 100%.
+  DIALOGO ............... 4.335 de 4.372 falas, 320.602 caracteres.
+                          As 37 restantes sao todas {BLANK} ou vazias,
+                          conferidas uma a uma.
 
-  MENUS E ITENS ... 0 de 2.909 strings. AINDA EM INGLES.
-                    Nome de item, equipamento, magia e comandos. Exemplos do
-                    que voce vai ver em ingles: Rusty Sword, Mana Pendant,
-                    Cactus Essence, Moon Mirror, Gold Key.
+  MENUS E ITENS ......... 1.748 de 1.840 strings (95%).
+                          Nome e descricao de item, arma, armadura, magia,
+                          classe, monstro, lugar, status.
 
-  Sao strings curtas, mas com limite de espaco bem mais apertado que o
-  dialogo -- o problema oposto. E a proxima fase.
+  MENSAGENS DE SISTEMA .. 81 de 81 (100%).
+                          Salvar/carregar, forja, criacao de personagem,
+                          "Botao A:Aceitar", comportamento de NPC, Amigo.
 
-  O jogo nao foi zerado nessa versao. O dialogo foi revisado, mas se voce
-  encontrar texto cortado, reporte.
+  As 92 strings de menu em ingles sao NOME PROPRIO por decisao: monstros
+  cunhados (Rabite, Molebear, Poto, Chobin Hood, Kaiser Mimic), personagens,
+  os oito espiritos (Wisp, Shade, Luna, Salamander, Undine, Dryad, Jinn,
+  Gnome) e o Dark Lord -- mais OK, HP e MP, iguais em portugues.
 
 
 ==============================================================================
-  7. PERGUNTAS QUE SEMPRE APARECEM
+  8. O QUE NAO ESTA
+==============================================================================
+
+  A introducao ("In the beginning, the world was void.") e IMAGEM, nao fonte:
+  esta pre-renderizada numa fonte italica decorativa. Traduzir significa
+  redesenhar grafico na ROM, que e uma fase diferente, e ficou de fora.
+
+  O jogo nao foi zerado nessa versao. Se voce encontrar texto cortado ou erro
+  de traducao, reporte.
+
+
+==============================================================================
+  9. PERGUNTAS QUE SEMPRE APARECEM
 ==============================================================================
 
   "Posso pedir a ROM pra voce?"
@@ -117,8 +147,7 @@ dois nao bater, ele para e diz qual.
   Nao garanto. Comece um jogo novo pra evitar surpresa.
 
   "Achei um erro de traducao ou texto cortado"
-  Abra uma issue no repositorio com print e onde aconteceu. Esse tipo de coisa
-  so aparece jogando.
+  Abra uma issue no repositorio com print e onde aconteceu.
 
   https://github.com/kreycai/sword-of-mana-ptbr
 

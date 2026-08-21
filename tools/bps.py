@@ -42,28 +42,59 @@ def _read_num(d, p):
         n += 1 << shift
 
 
-def create(src, dst):
-    """Gera o patch. Usa so SourceRead e TargetRead -- suficiente e otimo para
-    traducao de ROM, onde os arquivos ficam alinhados e as mudancas sao pontuais."""
+def create(src, dst, rle_min=24):
+    """Gera o patch.
+
+    Usa SourceRead (trecho igual a origem na mesma posicao), TargetRead (dados
+    literais) e **TargetCopy pra sequencias repetidas**. O TargetCopy le do que
+    ja foi escrito na SAIDA e pode se sobrepor, o que da RLE de graca: escreve 1
+    byte literal e copia N-1 a partir dele.
+
+    Isso importa muito pra ROM EXPANDIDA (ex: Sword of Mana, 16 MB -> 32 MB): a
+    area nova e quase toda padding zerado. Sem RLE, esses megabytes entram como
+    literal e o patch fica do tamanho da propria expansao.
+    """
     out = bytearray(b'BPS1')
     out += _num(len(src)) + _num(len(dst)) + _num(0)
 
     n = len(dst)
     i = 0
+    trel = 0
     while i < n:
-        # trecho igual a origem, na mesma posicao
+        # 1) trecho igual a origem, na mesma posicao -> SourceRead (custa ~nada)
         j = i
         while j < n and j < len(src) and dst[j] == src[j]:
             j += 1
         if j > i:
-            out += _num(((j - i - 1) << 2) | 0)      # SourceRead
+            out += _num(((j - i - 1) << 2) | 0)
             i = j
             continue
-        # trecho diferente
+
+        # 2) sequencia longa do mesmo byte -> 1 literal + TargetCopy sobreposto
+        k = i
+        while k < n and dst[k] == dst[i] and not (k < len(src) and dst[k] == src[k]):
+            k += 1
+        if k - i >= rle_min:
+            out += _num((0 << 2) | 1) + dst[i:i + 1]          # TargetRead de 1 byte
+            length = k - i - 1
+            delta = i - trel                                   # aponta pro byte escrito
+            out += _num(((length - 1) << 2) | 3)               # TargetCopy
+            out += _num((abs(delta) << 1) | (1 if delta < 0 else 0))
+            trel = i + length
+            i = k
+            continue
+
+        # 3) resto -> TargetRead literal, ate voltar a bater com a origem
+        #    (parando tambem numa sequencia longa, que o passo 2 aproveita)
         j = i
         while j < n and not (j < len(src) and dst[j] == src[j]):
-            j += 1
-        out += _num(((j - i - 1) << 2) | 1)          # TargetRead
+            m = j
+            while m < n and dst[m] == dst[j] and not (m < len(src) and dst[m] == src[m]):
+                m += 1
+            if m - j >= rle_min and m > i:
+                break
+            j = m if m > j else j + 1
+        out += _num(((j - i - 1) << 2) | 1)
         out += dst[i:j]
         i = j
 
