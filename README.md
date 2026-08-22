@@ -7,6 +7,7 @@ Game Boy Advance).
 sistema. A história inteira, os nomes e descrições de item, arma, armadura, magia,
 classe, monstro e lugar, e a interface de salvar, forjar e criar personagem.
 
+Fórum da publicação: https://www.romhacking.net.br/index.php?topic=3450.0
 ---
 
 ## Baixar
